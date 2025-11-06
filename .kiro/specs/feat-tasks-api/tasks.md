@@ -60,8 +60,9 @@
   - Test error handling for database connection issues
   - _Requirements: 5.1, 5.2, 5.4_
 
-- [ ] 6. Implement Task controller layer
-- [ ] 6.1 Create TaskController class with HTTP request handlers
+- [-] 6. Implement Task controller layer
+
+- [x] 6.1 Create TaskController class with HTTP request handlers
 
   - Implement createTask controller method for POST /tasks
   - Implement getAllTasks controller method for GET /tasks
@@ -69,7 +70,7 @@
   - Add proper request validation and error response handling
   - _Requirements: 1.1, 1.5, 2.1, 2.3, 3.1, 3.4, 3.5_
 
-- [ ]\* 6.2 Write unit tests for TaskController methods
+- [x] 6.2 Write unit tests for TaskController methods
 
   - Mock TaskService dependencies for isolated testing
   - Test HTTP status codes and response formats
