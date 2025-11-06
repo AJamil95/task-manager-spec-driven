@@ -77,15 +77,16 @@
   - Test error handling scenarios
   - _Requirements: 1.5, 2.3, 3.4, 3.5_
 
-- [ ] 7. Set up Express routes and middleware
-- [ ] 7.1 Create task routes configuration
+- [x] 7. Set up Express routes and middleware
+
+- [x] 7.1 Create task routes configuration
 
   - Define route handlers connecting to TaskController methods
   - Set up route parameter validation for task ID
   - Configure JSON body parsing middleware
   - _Requirements: 1.1, 2.1, 3.1_
 
-- [ ] 7.2 Implement global error handling middleware
+- [x] 7.2 Implement global error handling middleware
 
   - Create error response formatting middleware
   - Add Prisma error mapping to HTTP status codes
