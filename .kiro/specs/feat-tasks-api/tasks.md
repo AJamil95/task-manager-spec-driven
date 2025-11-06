@@ -93,8 +93,9 @@
   - Implement async error wrapper for controllers
   - _Requirements: 3.3, 3.4, 5.4_
 
-- [ ] 8. Create main server application
-- [ ] 8.1 Implement server.ts with Express app configuration
+- [x] 8. Create main server application
+
+- [x] 8.1 Implement server.ts with Express app configuration
 
   - Set up Express application with middleware
   - Configure task routes and error handling
@@ -102,7 +103,7 @@
   - Set up server startup and graceful shutdown
   - _Requirements: 4.1, 5.1, 5.4_
 
-- [ ]\* 8.2 Write integration tests for API endpoints
+- [x] 8.2 Write integration tests for API endpoints
 
   - Test complete request/response cycles for all endpoints
   - Test error scenarios and status codes
