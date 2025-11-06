@@ -26,8 +26,9 @@
   - Set up type exports from models directory
   - _Requirements: 4.5, 1.1, 3.2_
 
-- [ ] 4. Implement Task service layer
-- [ ] 4.1 Create TaskService class with business logic methods
+- [-] 4. Implement Task service layer
+
+- [x] 4.1 Create TaskService class with business logic methods
 
   - Implement createTask method with validation logic
   - Implement getAllTasks method for retrieving all tasks
@@ -35,7 +36,7 @@
   - Implement findTaskById helper method
   - _Requirements: 1.1, 1.2, 2.1, 3.1, 3.2, 3.3_
 
-- [ ]\* 4.2 Write unit tests for TaskService methods
+- [x] 4.2 Write unit tests for TaskService methods
 
   - Test createTask with valid and invalid data
   - Test getAllTasks return behavior
