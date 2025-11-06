@@ -16,7 +16,9 @@
   - Set up database connection utilities in src/db directory
   - _Requirements: 5.1, 5.2, 5.5_
 
-- [ ] 3. Implement core TypeScript interfaces and types
+-
+
+- [x] 3. Implement core TypeScript interfaces and types
 
   - Create Task interface and related DTOs (CreateTaskRequest, UpdateTaskStatusRequest, TaskResponse)
   - Define TaskStatus enum type matching Prisma schema
