@@ -43,8 +43,9 @@
   - Test updateTaskStatus with valid and invalid statuses
   - _Requirements: 1.1, 2.1, 3.1, 3.2_
 
-- [ ] 5. Implement database repository layer
-- [ ] 5.1 Create TaskRepository class using Prisma client
+- [-] 5. Implement database repository layer
+
+- [x] 5.1 Create TaskRepository class using Prisma client
 
   - Implement create method for new task insertion
   - Implement findMany method for retrieving all tasks
@@ -53,10 +54,12 @@
   - Add proper async/await error handling
   - _Requirements: 5.1, 5.3, 5.4_
 
-- [ ]\* 5.2 Write integration tests for TaskRepository
+- [x] 5.2 Write integration tests for TaskRepository
+
   - Test database operations with in-memory SQLite
   - Test error handling for database connection issues
   - _Requirements: 5.1, 5.2, 5.4_
+
 - [ ] 6. Implement Task controller layer
 - [ ] 6.1 Create TaskController class with HTTP request handlers
 
