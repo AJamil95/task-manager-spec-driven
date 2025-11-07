@@ -7,7 +7,7 @@
   - Set up TypeScript types for JWT payload and auth requests
   - _Requirements: 1.1, 1.5_
 
-- [ ] 2. Implement authentication service
+- [x] 2. Implement authentication service
 
   - Create AuthService class with login method
   - Implement JWT token generation with 24-hour expiration
