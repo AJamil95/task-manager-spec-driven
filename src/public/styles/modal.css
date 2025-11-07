@@ -153,3 +153,40 @@
     width: 100%;
   }
 }
+
+/* Login Modal Specific Styles */
+#login-modal .modal-content {
+  max-width: 400px;
+}
+
+#login-modal .modal-header {
+  text-align: center;
+  justify-content: center;
+}
+
+.login-error {
+  background: #fee;
+  border: 1px solid #fcc;
+  color: #c33;
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius);
+  margin-bottom: var(--spacing-md);
+  font-size: 0.875rem;
+}
+
+.login-error.hidden {
+  display: none;
+}
+
+/* Prevent closing login modal by clicking outside */
+#login-modal {
+  pointer-events: auto;
+}
+
+#login-modal.active {
+  pointer-events: auto;
+}
+
+#login-modal .modal-content {
+  pointer-events: auto;
+}

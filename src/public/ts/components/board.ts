@@ -110,7 +110,9 @@ export class TaskBoard implements ITaskBoard {
       //   name: error.name,
       // });
 
-      this.showError(`Error al cargar las tareas: ${error.message}`);
+      const errorMessage =
+        error instanceof Error ? error.message : "Error desconocido";
+      this.showError(`Error al cargar las tareas: ${errorMessage}`);
     } finally {
       this.isLoading = false;
       this.hideLoadingState();

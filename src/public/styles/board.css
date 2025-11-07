@@ -21,6 +21,12 @@
   color: var(--gray-900);
 }
 
+.header-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+}
+
 .create-task-btn {
   background-color: var(--primary-color);
   color: white;
@@ -34,6 +40,22 @@
 
 .create-task-btn:hover {
   background-color: #1d4ed8;
+}
+
+.logout-btn {
+  background-color: var(--gray-200);
+  color: var(--gray-700);
+  border: none;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+  background-color: var(--gray-300);
+  color: var(--gray-900);
 }
 
 .board-container {
@@ -126,5 +148,15 @@
 
   .board-header h1 {
     font-size: 1.25rem;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .create-task-btn,
+  .logout-btn {
+    flex: 1;
   }
 }
