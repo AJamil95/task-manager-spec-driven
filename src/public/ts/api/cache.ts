@@ -1,4 +1,4 @@
-import { ITaskCache, Task } from "../types/task.js";
+import type { ITaskCache, Task } from "../types/task.js";
 
 // Single Responsibility Principle - only handles task caching
 export class TaskCache implements ITaskCache {

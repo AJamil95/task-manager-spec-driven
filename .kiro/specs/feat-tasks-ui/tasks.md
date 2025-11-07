@@ -86,7 +86,7 @@
   - Implement drag and drop task status update logic
   - _Requirements: 1.1, 1.2, 1.3, 2.4, 2.5, 3.4, 5.1, 5.2, 5.3, 5.4_
 
-- [ ] 11. Create main application entry point
+- [x] 11. Create main application entry point
 
   - Implement main.ts as application bootstrap following Dependency Inversion Principle
   - Set up dependency injection container for all services and components

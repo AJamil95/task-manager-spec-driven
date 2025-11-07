@@ -1,4 +1,4 @@
-import { ITaskModal, Task, CreateTaskRequest } from "../types/task.js";
+import type { ITaskModal, Task, CreateTaskRequest } from "../types/task.js";
 
 /**
  * TaskModal component implementing ITaskModal interface

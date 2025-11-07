@@ -1,10 +1,10 @@
-import {
+import type {
   IApiClient,
   Task,
   CreateTaskRequest,
-  TaskStatus,
   UpdateTaskRequest,
 } from "../types/task.js";
+import { TaskStatus } from "../types/task.js";
 
 // Single Responsibility Principle - only handles HTTP communication
 export class ApiClient implements IApiClient {

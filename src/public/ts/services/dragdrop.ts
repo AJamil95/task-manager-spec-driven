@@ -1,9 +1,5 @@
-import {
-  IDragDropService,
-  Task,
-  TaskStatus,
-  DragDropData,
-} from "../types/task.js";
+import type { IDragDropService, Task, DragDropData } from "../types/task.js";
+import { TaskStatus } from "../types/task.js";
 
 // Single Responsibility Principle - only handles drag & drop logic
 export class DragDropService implements IDragDropService {
