@@ -15,7 +15,7 @@
   - Add credential validation against environment variables
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5_
 
-- [ ] 3. Create authentication middleware
+- [x] 3. Create authentication middleware
 
   - Implement authMiddleware to extract and validate JWT tokens
   - Add Authorization header parsing (Bearer token)
