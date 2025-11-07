@@ -41,12 +41,11 @@ function configureApp(): void {
   });
 
   // Authentication routes (public - no auth middleware)
-  app.use("/auth", createAuthRoutes());
+  app.use("/api/auth", createAuthRoutes());
 
   // Protected task routes with authentication middleware
   // Middleware order: auth → validation → controller
   app.use("/api/tasks", authMiddleware, createTaskRoutes());
-  app.use("/tasks", authMiddleware, createTaskRoutes());
 
   // Serve static files from dist directory with proper caching headers
   const distPath = path.join(__dirname, "../dist");
@@ -69,13 +68,8 @@ function configureApp(): void {
 
   // SPA fallback route - serve index.html for all non-API routes
   app.use((req, res, next) => {
-    // Only serve SPA for non-API routes, non-task routes, and non-auth routes
-    if (
-      !req.path.startsWith("/api/") &&
-      !req.path.startsWith("/tasks") &&
-      !req.path.startsWith("/auth") &&
-      !req.path.startsWith("/health")
-    ) {
+    // Only serve SPA for non-API routes and non-health routes
+    if (!req.path.startsWith("/api/") && !req.path.startsWith("/health")) {
       const indexPath = path.join(distPath, "index.html");
       res.sendFile(indexPath, (err) => {
         if (err) {
@@ -111,8 +105,9 @@ async function startServer(): Promise<void> {
     const server = app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
       console.log(`Health check available at http://localhost:${PORT}/health`);
-      console.log(`Task API available at http://localhost:${PORT}/tasks`);
-      // console.log(`Frontend UI available at http://localhost:${PORT}/`);
+      console.log(`Task API available at http://localhost:${PORT}/api/tasks`);
+      console.log(`Auth API available at http://localhost:${PORT}/api/auth`);
+      console.log(`Frontend UI available at http://localhost:${PORT}/`);
     });
 
     // Graceful shutdown handlers
