@@ -165,9 +165,9 @@ class Sanitizer {
 JWT_SECRET=your-secret-key-here
 JWT_EXPIRES_IN=24h
 
-# Auth Credentials (Simple placeholder)
-AUTH_USERNAME=admin
-AUTH_PASSWORD=admin123
+# Auth Credentials (NEVER commit real credentials)
+AUTH_USERNAME=your-username-here
+AUTH_PASSWORD=your-password-here
 ```
 
 ### Login Flow

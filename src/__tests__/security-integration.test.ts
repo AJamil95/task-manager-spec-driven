@@ -33,8 +33,8 @@ describe("Security Integration Tests", () => {
     const loginResponse = await request(app)
       .post("/auth/login")
       .send({
-        username: process.env.AUTH_USERNAME || "admin",
-        password: process.env.AUTH_PASSWORD || "admin123",
+        username: process.env.AUTH_USERNAME || "testuser",
+        password: process.env.AUTH_PASSWORD || "testpass",
       });
 
     authToken = loginResponse.body.token;
@@ -50,8 +50,8 @@ describe("Security Integration Tests", () => {
       const response = await request(app)
         .post("/auth/login")
         .send({
-          username: process.env.AUTH_USERNAME || "admin",
-          password: process.env.AUTH_PASSWORD || "admin123",
+          username: process.env.AUTH_USERNAME || "testuser",
+          password: process.env.AUTH_PASSWORD || "testpass",
         })
         .expect(200);
 
@@ -67,7 +67,7 @@ describe("Security Integration Tests", () => {
         .post("/auth/login")
         .send({
           username: "wronguser",
-          password: process.env.AUTH_PASSWORD || "admin123",
+          password: process.env.AUTH_PASSWORD || "testpass",
         })
         .expect(401);
 
@@ -82,7 +82,7 @@ describe("Security Integration Tests", () => {
       const response = await request(app)
         .post("/auth/login")
         .send({
-          username: process.env.AUTH_USERNAME || "admin",
+          username: process.env.AUTH_USERNAME || "testuser",
           password: "wrongpassword",
         })
         .expect(401);
@@ -98,8 +98,8 @@ describe("Security Integration Tests", () => {
       const loginResponse = await request(app)
         .post("/auth/login")
         .send({
-          username: process.env.AUTH_USERNAME || "admin",
-          password: process.env.AUTH_PASSWORD || "admin123",
+          username: process.env.AUTH_USERNAME || "testuser",
+          password: process.env.AUTH_PASSWORD || "testpass",
         })
         .expect(200);
 
@@ -479,8 +479,8 @@ describe("Security Integration Tests", () => {
       const loginResponse = await request(app)
         .post("/auth/login")
         .send({
-          username: process.env.AUTH_USERNAME || "admin",
-          password: process.env.AUTH_PASSWORD || "admin123",
+          username: process.env.AUTH_USERNAME || "testuser",
+          password: process.env.AUTH_PASSWORD || "testpass",
         })
         .expect(200);
 
