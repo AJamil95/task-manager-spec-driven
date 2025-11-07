@@ -5,13 +5,13 @@
   "scripts": {
     "dev": "tsx ./src/server.ts",
     "dev:ui": "vite",
-    "build": "tsc && npm run build:ui",
+    "build": "prisma generate && tsc && npm run build:ui",
     "build:ui": "vite build",
     "start": "node dist/server.js",
     "test": "vitest --run",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
-    "db:migrate": "prisma migrate dev"
+    "db:migrate": "prisma migrate deploy"
   },
   "keywords": [],
   "author": "",
