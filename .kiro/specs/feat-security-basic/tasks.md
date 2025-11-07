@@ -23,7 +23,7 @@
   - Return 401 errors for missing or invalid tokens
   - _Requirements: 2.1, 2.2, 2.3, 2.4_
 
-- [ ] 4. Create authentication routes and controller
+- [x] 4. Create authentication routes and controller
 
   - Create auth.routes.ts with POST /auth/login endpoint
   - Implement AuthController with login handler
