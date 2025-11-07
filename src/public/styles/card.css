@@ -147,3 +147,31 @@
 .task-action-btn.cancel:hover {
   background: var(--gray-500);
 }
+
+.task-action-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Error states */
+.task-card-input.error,
+.task-card-textarea.error {
+  border-color: var(--danger-color) !important;
+  background: rgba(220, 38, 38, 0.05) !important;
+}
+
+.task-card-input.error:focus,
+.task-card-textarea.error:focus {
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.1);
+}
+
+/* Visual states */
+.task-card:hover .task-card-title,
+.task-card:hover .task-card-description {
+  cursor: text;
+}
+
+.task-card.editing .task-card-title,
+.task-card.editing .task-card-description {
+  cursor: text;
+}
