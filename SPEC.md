@@ -62,3 +62,24 @@ El sistema permitirá crear, listar y actualizar tareas, aplicando buenas práct
 - **Vanilla TypeScript** + HTML5 + CSS3
 - **APIs nativas**: Fetch, Drag & Drop, DOM, localStorage
 - **Integración SPA** en el mismo servidor Express
+
+## Seguridad (Cybersecurity Essentials)
+
+### Autenticación con JWT
+
+Se implementa un sistema de autenticación mediante **JSON Web Tokens (JWT)** con el objetivo de asegurar el acceso a las rutas del sistema:
+
+- **Login Endpoint:** Permite a un usuario autenticarse y recibir un token JWT.
+- **Middleware de Autenticación:** Valida el token en cada solicitud realizada a rutas protegidas.
+- **Protección de Rutas:** Todas las APIs relacionadas con gestión de tareas requieren un token válido para su uso.
+
+---
+
+### Validación y Sanitización de Entradas
+
+Para asegurar la integridad de los datos y prevenir ataques como **inyección de código**, **XSS**, o datos corruptos, se aplican las siguientes medidas sobre las entradas del usuario:
+
+- **Validación de Datos:** Se verifica el tipo, formato y valores permitidos para cada campo.
+- **Sanitización:** Las entradas son limpiadas para remover caracteres o patrones peligrosos.
+- **Escape:** Se escapan caracteres especiales para evitar interpretaciones indeseadas.
+- **Límites:** Se establecen valores máximos de longitud y tamaño en campos como textos y títulos.
