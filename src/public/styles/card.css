@@ -1,0 +1,149 @@
+/* Task Card Styles */
+.task-card {
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
+  cursor: grab;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.task-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+  border-color: var(--gray-300);
+}
+
+.task-card:active {
+  cursor: grabbing;
+}
+
+.task-card.dragging {
+  opacity: 0.5;
+  transform: rotate(2deg);
+  z-index: 1000;
+}
+
+.task-card-title {
+  font-weight: 600;
+  color: var(--gray-900);
+  margin-bottom: var(--spacing-xs);
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+.task-card-description {
+  color: var(--gray-600);
+  font-size: 0.875rem;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+.task-card-meta {
+  margin-top: var(--spacing-xs);
+  padding-top: var(--spacing-xs);
+  border-top: 1px solid var(--gray-100);
+  font-size: 0.75rem;
+  color: var(--gray-400);
+}
+
+/* Inline Editing */
+.task-card.editing {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+.task-card-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  padding: 2px 4px;
+  margin: -2px -4px;
+  border-radius: 3px;
+  outline: none;
+}
+
+.task-card-input:focus {
+  background: var(--gray-50);
+  border: 1px solid var(--primary-color);
+}
+
+.task-card-textarea {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  padding: 2px 4px;
+  margin: -2px -4px;
+  border-radius: 3px;
+  outline: none;
+  resize: vertical;
+  min-height: 1.5em;
+}
+
+.task-card-textarea:focus {
+  background: var(--gray-50);
+  border: 1px solid var(--primary-color);
+}
+
+/* Edit Actions */
+.task-card-actions {
+  display: none;
+  position: absolute;
+  top: var(--spacing-xs);
+  right: var(--spacing-xs);
+  gap: var(--spacing-xs);
+}
+
+.task-card:hover .task-card-actions {
+  display: flex;
+}
+
+.task-card.editing .task-card-actions {
+  display: flex;
+}
+
+.task-action-btn {
+  background: var(--gray-100);
+  border: none;
+  border-radius: 3px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.2s ease;
+}
+
+.task-action-btn:hover {
+  background: var(--gray-200);
+}
+
+.task-action-btn.save {
+  background: var(--success-color);
+  color: white;
+}
+
+.task-action-btn.save:hover {
+  background: #15803d;
+}
+
+.task-action-btn.cancel {
+  background: var(--gray-400);
+  color: white;
+}
+
+.task-action-btn.cancel:hover {
+  background: var(--gray-500);
+}
