@@ -25,11 +25,13 @@
     "@prisma/client": "^6.19.0",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
     "prisma": "^6.19.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.5",
     "@types/jest": "^30.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.10.0",
     "@types/supertest": "^6.0.3",
     "@vitejs/plugin-legacy": "^7.2.1",
