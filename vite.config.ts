@@ -14,11 +14,6 @@ export default defineConfig({
         main: "src/public/index.html",
       },
       output: {
-        // Optimize chunk splitting
-        manualChunks: {
-          // Separate vendor code for better caching
-          vendor: ["@types/node"],
-        },
         // Consistent file naming for caching
         entryFileNames: "assets/[name]-[hash].js",
         chunkFileNames: "assets/[name]-[hash].js",

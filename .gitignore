@@ -20,7 +20,7 @@ build/
 .env.local
 .env.*.local
 
-# Database
+# Database (SQLite - legacy)
 prisma/dev.db
 prisma/dev.db-journal
 
