@@ -121,6 +121,47 @@ export class TaskService {
   }
 
   /**
+   * Updates task title and description
+   * @param id - Task ID
+   * @param data - Update data (title, description)
+   * @returns Promise<Task> - The updated task
+   * @throws Error if task not found or validation fails
+   */
+  async updateTask(
+    id: string,
+    data: { title: string; description?: string }
+  ): Promise<Task> {
+    // Validate required fields
+    if (!data.title || data.title.trim().length === 0) {
+      throw new Error("Title is required and cannot be empty");
+    }
+
+    // Check if task exists
+    const existingTask = await this.findTaskById(id);
+    if (!existingTask) {
+      throw new Error(`Task with ID ${id} not found`);
+    }
+
+    try {
+      const updatedTask = await prisma.task.update({
+        where: { id },
+        data: {
+          title: data.title.trim(),
+          description: data.description?.trim() ?? null,
+        },
+      });
+
+      return convertPrismaTaskToTask(updatedTask);
+    } catch (error) {
+      throw new Error(
+        `Failed to update task: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`
+      );
+    }
+  }
+
+  /**
    * Finds a task by its ID
    * @param id - Task ID
    * @returns Promise<Task | null> - The task if found, null otherwise

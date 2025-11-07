@@ -122,9 +122,9 @@ describe("TaskRepository Integration Tests", () => {
       // Assert
       expect(result).toHaveLength(3);
       // Should be ordered by creation date (newest first)
-      expect(result[0].title).toBe("Third Task");
-      expect(result[1].title).toBe("Second Task");
-      expect(result[2].title).toBe("First Task");
+      expect(result[0]?.title).toBe("Third Task");
+      expect(result[1]?.title).toBe("Second Task");
+      expect(result[2]?.title).toBe("First Task");
     });
 
     it("should return empty array when no tasks exist", async () => {

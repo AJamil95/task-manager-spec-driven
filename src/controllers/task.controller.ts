@@ -186,4 +186,89 @@ export class TaskController {
       });
     }
   }
+
+  /**
+   * Updates task title and description
+   * PUT /tasks/:id
+   */
+  async updateTask(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params;
+      const { title, description } = req.body;
+
+      // Validate task ID
+      if (!id || typeof id !== "string") {
+        res.status(400).json({
+          error: "Validation Error",
+          message: "Task ID is required and must be a string",
+          statusCode: 400,
+          timestamp: new Date().toISOString(),
+        });
+        return;
+      }
+
+      // Validate title
+      if (!title || typeof title !== "string" || title.trim().length === 0) {
+        res.status(400).json({
+          error: "Validation Error",
+          message: "Title is required and must be a non-empty string",
+          statusCode: 400,
+          timestamp: new Date().toISOString(),
+        });
+        return;
+      }
+
+      // Validate description (optional)
+      if (description !== undefined && typeof description !== "string") {
+        res.status(400).json({
+          error: "Validation Error",
+          message: "Description must be a string if provided",
+          statusCode: 400,
+          timestamp: new Date().toISOString(),
+        });
+        return;
+      }
+
+      // Update task via service
+      const updateData = {
+        title: title.trim(),
+        ...(description !== undefined && { description: description.trim() }),
+      };
+
+      const updatedTask = await this.taskService.updateTask(id, updateData);
+
+      // Format response
+      const taskResponse: TaskResponse = {
+        id: updatedTask.id,
+        title: updatedTask.title,
+        ...(updatedTask.description && {
+          description: updatedTask.description,
+        }),
+        status: updatedTask.status,
+        createdAt: updatedTask.createdAt.toISOString(),
+        updatedAt: updatedTask.updatedAt.toISOString(),
+      };
+
+      res.status(200).json(taskResponse);
+    } catch (error) {
+      // Handle specific error cases
+      if (error instanceof Error && error.message.includes("not found")) {
+        res.status(404).json({
+          error: "Not Found",
+          message: error.message,
+          statusCode: 404,
+          timestamp: new Date().toISOString(),
+        });
+        return;
+      }
+
+      res.status(500).json({
+        error: "Internal Server Error",
+        message:
+          error instanceof Error ? error.message : "Unknown error occurred",
+        statusCode: 500,
+        timestamp: new Date().toISOString(),
+      });
+    }
+  }
 }
