@@ -8,7 +8,11 @@ import { TaskBoard } from "./components/board.js";
 import { ApiClient } from "./api/client.js";
 import { TaskCache } from "./api/cache.js";
 import { DragDropService } from "./services/dragdrop.js";
+import { AuthService } from "./services/auth.js";
+import { LoginComponent } from "./components/login.js";
 import type { IApiClient, ITaskCache, IDragDropService } from "./types/task.js";
+import type { IAuthService } from "./services/auth.js";
+import type { ILoginComponent } from "./components/login.js";
 
 /**
  * Dependency Injection Container
@@ -60,6 +64,8 @@ class DIContainer {
 class Application {
   private container: DIContainer;
   private taskBoard: TaskBoard | null = null;
+  private loginComponent: ILoginComponent | null = null;
+  private authService: IAuthService | null = null;
   private isInitialized: boolean = false;
 
   constructor() {
@@ -68,7 +74,7 @@ class Application {
 
   /**
    * Initialize the application with all dependencies
-   * Requirements: 6.1, 6.4, 6.5
+   * Requirements: 6.1, 6.4, 6.5, 1.1, 1.2, 2.1, 2.2
    */
   async init(): Promise<void> {
     try {
@@ -80,6 +86,16 @@ class Application {
 
       // Setup dependency injection container
       this.setupDependencies();
+
+      // Initialize authentication
+      this.initializeAuth();
+
+      // Check if user is authenticated
+      if (!this.authService?.isAuthenticated()) {
+        this.hideGlobalLoading();
+        this.showLogin();
+        return;
+      }
 
       // Initialize main application components
       await this.initializeComponents();
@@ -106,15 +122,96 @@ class Application {
    */
   private setupDependencies(): void {
     // Register core services
+    const authService: IAuthService = new AuthService();
     const apiClient: IApiClient = new ApiClient();
     const taskCache: ITaskCache = new TaskCache();
     const dragDropService: IDragDropService = new DragDropService();
 
+    this.container.register("authService", authService);
     this.container.register("apiClient", apiClient);
     this.container.register("taskCache", taskCache);
     this.container.register("dragDropService", dragDropService);
 
     // console.log("📦 Dependencies registered in DI container");
+  }
+
+  /**
+   * Initialize authentication components
+   * Requirements: 1.1, 1.2, 2.1, 2.2
+   */
+  private initializeAuth(): void {
+    this.authService = this.container.get<IAuthService>("authService");
+    const apiClient = this.container.get<IApiClient>("apiClient");
+
+    // Configure API client with auth service
+    apiClient.setAuthService(this.authService);
+
+    // Set up 401 handler to show login on token expiration
+    apiClient.setUnauthorizedHandler(() => {
+      this.handleUnauthorized();
+    });
+
+    // Initialize login component
+    this.loginComponent = new LoginComponent(this.authService);
+
+    // Handle successful login
+    this.loginComponent.onLoginSuccess(async () => {
+      this.showGlobalLoading("Cargando aplicación...");
+      try {
+        await this.initializeComponents();
+        this.setupLifecycleHandlers();
+        this.isInitialized = true;
+        this.hideGlobalLoading();
+        this.showGlobalSuccess("Sesión iniciada correctamente");
+      } catch (error) {
+        console.error("Failed to initialize after login:", error);
+        this.hideGlobalLoading();
+        this.showGlobalError("Error al cargar la aplicación");
+      }
+    });
+
+    // console.log("🔐 Authentication initialized");
+  }
+
+  /**
+   * Handle unauthorized access (401 responses)
+   * Requirements: 2.1, 2.2
+   */
+  private handleUnauthorized(): void {
+    this.isInitialized = false;
+
+    // Clear task board
+    if (this.taskBoard) {
+      const appContainer = document.getElementById("app");
+      if (appContainer) {
+        appContainer.innerHTML = `
+          <div class="task-board">
+            <header class="board-header">
+              <h1>Gestor de Tareas</h1>
+              <button class="create-task-btn">+ Nueva Tarea</button>
+            </header>
+            <main class="board-container">
+              <!-- Columns will be dynamically generated -->
+            </main>
+          </div>
+        `;
+      }
+      this.taskBoard = null;
+    }
+
+    this.showLogin();
+    this.showGlobalError(
+      "Sesión expirada. Por favor, inicia sesión nuevamente."
+    );
+  }
+
+  /**
+   * Show login modal
+   */
+  private showLogin(): void {
+    if (this.loginComponent) {
+      this.loginComponent.show();
+    }
   }
 
   /**
@@ -144,7 +241,62 @@ class Application {
     // Initialize the board
     await this.taskBoard.init();
 
+    // Setup logout button
+    this.setupLogoutButton();
+
     // console.log("🎯 TaskBoard initialized with dependencies");
+  }
+
+  /**
+   * Setup logout button event listener
+   */
+  private setupLogoutButton(): void {
+    const logoutBtn = document.querySelector(".logout-btn");
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", () => {
+        this.handleLogout();
+      });
+    }
+  }
+
+  /**
+   * Handle user logout
+   */
+  private handleLogout(): void {
+    if (this.authService) {
+      this.authService.logout();
+    }
+
+    // Clear cache
+    const taskCache = this.container.get<ITaskCache>("taskCache");
+    taskCache.clear();
+
+    // Reset application state
+    this.isInitialized = false;
+    this.taskBoard = null;
+
+    // Reset app container
+    const appContainer = document.getElementById("app");
+    if (appContainer) {
+      appContainer.innerHTML = `
+        <div class="task-board">
+          <header class="board-header">
+            <h1>Gestor de Tareas</h1>
+            <div class="header-actions">
+              <button class="create-task-btn">+ Nueva Tarea</button>
+              <button class="logout-btn" title="Cerrar sesión">Salir</button>
+            </div>
+          </header>
+          <main class="board-container">
+            <!-- Columns will be dynamically generated -->
+          </main>
+        </div>
+      `;
+    }
+
+    // Show login
+    this.showLogin();
+    this.showGlobalSuccess("Sesión cerrada correctamente");
   }
 
   /**

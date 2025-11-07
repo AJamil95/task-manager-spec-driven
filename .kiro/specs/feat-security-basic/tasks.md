@@ -71,7 +71,7 @@
   - Test integration with existing task routes
   - _Requirements: 1.1, 2.5, 5.1_
 
-- [ ] 10. Integrate UI with JWT authentication
+- [x] 10. Integrate UI with JWT authentication
 
   - Add login form to UI for username/password input
   - Implement client-side logic to call /auth/login endpoint

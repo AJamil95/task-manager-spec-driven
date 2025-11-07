@@ -55,6 +55,8 @@ export interface IApiClient {
   createTask(data: CreateTaskRequest): Promise<Task>;
   updateTaskStatus(id: string, status: TaskStatus): Promise<Task>;
   updateTask(id: string, data: UpdateTaskRequest): Promise<Task>;
+  setAuthService(authService: any): void;
+  setUnauthorizedHandler(handler: () => void): void;
 }
 
 export interface ITaskCache {
