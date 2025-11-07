@@ -1,67 +1,40 @@
-# ───────────────
-# Node / TypeScript
-# ───────────────
-
-# Dependencias
+# Dependencies
 node_modules/
 
-# Archivos compilados
+# Build output
 dist/
 build/
+*.d.ts
+*.d.ts.map
+*.js
+*.js.map
+!vite.config.ts
+!vitest.config.ts
+!prisma.config.ts
 
-# Archivos temporales y logs
+# Logs
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
 
-# Archivos del entorno
+# Environment
 .env
 .env.local
 .env.*.local
 
-# ───────────────
-# Prisma + SQLite
-# ───────────────
-
-# Base de datos local
+# Database (SQLite - legacy)
 prisma/dev.db
 prisma/dev.db-journal
 
-# Migraciones compiladas
-# prisma/migrations/
-
-# ───────────────
-# Editores / IDEs
-# ───────────────
-
+# Editors
 .vscode/
 .idea/
 
-# ───────────────
-# Sistema operativo
-# ───────────────
-
+# OS
 .DS_Store
 Thumbs.db
 
-# ───────────────
-# Testing / Cache
-# ───────────────
-
+# Testing
 coverage/
-*.lcov
 .cache/
-.tmp/
 
-# ───────────────
-# Archivos locales
-# ───────────────
-
-*.local.json
-
-# Archivos de bloqueo
-# package-lock.json
-# yarn.lock
-# pnpm-lock.yaml
+# Generated
+/src/generated/prisma
