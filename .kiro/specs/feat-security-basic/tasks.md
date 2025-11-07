@@ -31,14 +31,14 @@
   - Return JWT token in response body on successful login
   - _Requirements: 1.1, 1.2, 1.3, 1.4_
 
-- [ ] 5. Implement input sanitization utilities
+- [x] 5. Implement input sanitization utilities
 
   - Create Sanitizer class with trim method
   - Implement escapeHtml method for HTML special characters
   - Create sanitizeTaskInput method for task data
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5_
 
-- [ ] 6. Create input validation middleware
+- [x] 6. Create input validation middleware
 
   - Define validation rules for title, description, and status
   - Implement validateInput middleware factory
@@ -47,7 +47,7 @@
   - Return 400 errors with descriptive messages
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5_
 
-- [ ] 7. Update existing task controllers with sanitization
+- [x] 7. Update existing task controllers with sanitization
 
   - Integrate Sanitizer into TaskController.createTask
   - Integrate Sanitizer into TaskController.updateTask
@@ -55,7 +55,7 @@
   - Maintain existing validation logic
   - _Requirements: 4.1, 4.2, 4.3_
 
-- [ ] 8. Apply security middleware to routes
+- [x] 8. Apply security middleware to routes
 
   - Add body size limit (1MB) to express.json middleware
   - Apply authMiddleware to /api/tasks routes
@@ -63,7 +63,7 @@
   - Ensure middleware order: auth → validation → controller
   - _Requirements: 2.5, 5.1_
 
-- [ ] 9. Update server configuration
+- [x] 9. Update server configuration
 
   - Add authentication routes to Express app
   - Configure middleware stack in correct order
@@ -71,7 +71,16 @@
   - Test integration with existing task routes
   - _Requirements: 1.1, 2.5, 5.1_
 
-- [ ]\* 10. Add comprehensive security tests
+- [ ] 10. Integrate UI with JWT authentication
+
+  - Add login form to UI for username/password input
+  - Implement client-side logic to call /auth/login endpoint
+  - Store JWT token in localStorage or sessionStorage
+  - Add Authorization header with Bearer token to all API requests
+  - Handle 401 responses and redirect to login when token expires
+  - _Requirements: 1.1, 1.2, 2.1, 2.2_
+
+- [ ]\* 11. Add comprehensive security tests
 
   - Write unit tests for AuthService (token generation, verification)
   - Write unit tests for Sanitizer (HTML escaping, trimming)
@@ -80,13 +89,13 @@
   - Write tests for XSS prevention with malicious inputs
   - _Requirements: All requirements validation_
 
-- [ ] 11. Environment setup
+- [ ] 12. Environment setup
 
   - Create .env.example with JWT_SECRET and auth credentials
 
   - _Requirements: 1.5_
 
-- [ ] 12. Final integration and testing
+- [ ] 13. Final integration and testing
 
   - Test complete authentication flow: login → get token → access protected routes
   - Verify all task endpoints require authentication

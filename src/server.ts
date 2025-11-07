@@ -3,6 +3,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { prisma, disconnectDatabase } from "./db/index.js";
 import { createTaskRoutes } from "./routes/task.routes.js";
+import { createAuthRoutes } from "./routes/auth.routes.js";
+import { authMiddleware } from "./middleware/auth.middleware.js";
 import { errorHandler } from "./middleware/index.js";
 
 // ES module equivalent of __dirname
@@ -30,17 +32,21 @@ async function initializeDatabase(): Promise<void> {
  * Configure Express application with middleware
  */
 function configureApp(): void {
-  // JSON body parsing middleware
-  app.use(express.json());
+  // JSON body parsing middleware with 1MB size limit
+  app.use(express.json({ limit: "1mb" }));
 
   // Basic health check route
   app.get("/health", (req, res) => {
     res.json({ status: "OK", message: "Task Management API is running" });
   });
 
-  // Configure API routes - support both /api/tasks and /tasks for backward compatibility
-  app.use("/api/tasks", createTaskRoutes());
-  app.use("/tasks", createTaskRoutes());
+  // Authentication routes (public - no auth middleware)
+  app.use("/auth", createAuthRoutes());
+
+  // Protected task routes with authentication middleware
+  // Middleware order: auth → validation → controller
+  app.use("/api/tasks", authMiddleware, createTaskRoutes());
+  app.use("/tasks", authMiddleware, createTaskRoutes());
 
   // Serve static files from dist directory with proper caching headers
   const distPath = path.join(__dirname, "../dist");
@@ -63,10 +69,11 @@ function configureApp(): void {
 
   // SPA fallback route - serve index.html for all non-API routes
   app.use((req, res, next) => {
-    // Only serve SPA for non-API routes and non-task routes
+    // Only serve SPA for non-API routes, non-task routes, and non-auth routes
     if (
       !req.path.startsWith("/api/") &&
       !req.path.startsWith("/tasks") &&
+      !req.path.startsWith("/auth") &&
       !req.path.startsWith("/health")
     ) {
       const indexPath = path.join(distPath, "index.html");

@@ -6,6 +6,7 @@ import {
   type UpdateTaskStatusRequest,
   type TaskResponse,
 } from "../models/index.js";
+import { Sanitizer } from "../utils/sanitize.js";
 
 /**
  * TaskController - HTTP request handlers for task operations
@@ -47,10 +48,18 @@ export class TaskController {
         return;
       }
 
-      // Create task via service
-      const createTaskData: CreateTaskRequest = {
+      // Sanitize input before creating task
+      const sanitizedData = Sanitizer.sanitizeTaskInput({
         title,
         ...(description && { description }),
+      });
+
+      // Create task via service
+      const createTaskData: CreateTaskRequest = {
+        title: sanitizedData.title,
+        ...(sanitizedData.description && {
+          description: sanitizedData.description,
+        }),
       };
       const task = await this.taskService.createTask(createTaskData);
 
@@ -229,10 +238,18 @@ export class TaskController {
         return;
       }
 
+      // Sanitize input before updating task
+      const sanitizedData = Sanitizer.sanitizeTaskInput({
+        title,
+        ...(description !== undefined && { description }),
+      });
+
       // Update task via service
       const updateData = {
-        title: title.trim(),
-        ...(description !== undefined && { description: description.trim() }),
+        title: sanitizedData.title,
+        ...(sanitizedData.description !== undefined && {
+          description: sanitizedData.description,
+        }),
       };
 
       const updatedTask = await this.taskService.updateTask(id, updateData);

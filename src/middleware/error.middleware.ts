@@ -79,8 +79,18 @@ export function errorHandler(
   let message = "Internal Server Error";
   let errorType = "Internal Server Error";
 
+  // Handle authentication errors
+  if (
+    error.message.includes("Unauthorized") ||
+    error.message.includes("token") ||
+    error.message.includes("Authentication")
+  ) {
+    statusCode = 401;
+    message = error.message;
+    errorType = "Unauthorized";
+  }
   // Handle Prisma errors
-  if (error instanceof Prisma.PrismaClientKnownRequestError) {
+  else if (error instanceof Prisma.PrismaClientKnownRequestError) {
     const prismaError = mapPrismaError(error);
     statusCode = prismaError.statusCode;
     message = prismaError.message;
