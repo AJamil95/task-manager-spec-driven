@@ -1,7 +1,13 @@
 import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
 import { prisma, disconnectDatabase } from "./db/index.js";
 import { createTaskRoutes } from "./routes/task.routes.js";
 import { errorHandler } from "./middleware/index.js";
+
+// ES module equivalent of __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -32,8 +38,52 @@ function configureApp(): void {
     res.json({ status: "OK", message: "Task Management API is running" });
   });
 
-  // Configure task routes
+  // Configure API routes - support both /api/tasks and /tasks for backward compatibility
+  app.use("/api/tasks", createTaskRoutes());
   app.use("/tasks", createTaskRoutes());
+
+  // Serve static files from dist directory with proper caching headers
+  const distPath = path.join(__dirname, "../dist");
+  app.use(
+    express.static(distPath, {
+      // Cache static assets for 1 year (except HTML files)
+      setHeaders: (res, filePath) => {
+        if (path.extname(filePath) === ".html") {
+          // Don't cache HTML files to ensure fresh content
+          res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+          res.setHeader("Pragma", "no-cache");
+          res.setHeader("Expires", "0");
+        } else {
+          // Cache other assets (CSS, JS, images) for 1 year
+          res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+        }
+      },
+    })
+  );
+
+  // SPA fallback route - serve index.html for all non-API routes
+  app.use((req, res, next) => {
+    // Only serve SPA for non-API routes and non-task routes
+    if (
+      !req.path.startsWith("/api/") &&
+      !req.path.startsWith("/tasks") &&
+      !req.path.startsWith("/health")
+    ) {
+      const indexPath = path.join(distPath, "index.html");
+      res.sendFile(indexPath, (err) => {
+        if (err) {
+          console.error("Error serving index.html:", err);
+          res.status(500).json({
+            error: "Internal Server Error",
+            message: "Unable to serve application",
+          });
+        }
+      });
+    } else {
+      // Pass to next middleware (error handler)
+      next();
+    }
+  });
 
   // Global error handling middleware (must be last)
   app.use(errorHandler);
@@ -54,7 +104,8 @@ async function startServer(): Promise<void> {
     const server = app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
       console.log(`Health check available at http://localhost:${PORT}/health`);
-      console.log(`Task API available at http://localhost:${PORT}/tasks`);
+      console.log(`Task API available at http://localhost:${PORT}/api/tasks`);
+      console.log(`Frontend UI available at http://localhost:${PORT}/`);
     });
 
     // Graceful shutdown handlers

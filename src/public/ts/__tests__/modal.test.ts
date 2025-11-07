@@ -16,7 +16,9 @@ const mockTask: Task = {
 
 describe("TaskModal", () => {
   let taskModal: TaskModal;
-  let mockOnSubmit: ReturnType<typeof vi.fn>;
+  let mockOnSubmit: (
+    data: CreateTaskRequest | ({ id: string } & CreateTaskRequest)
+  ) => Promise<void>;
 
   beforeEach(() => {
     // Setup DOM structure that the modal expects
@@ -45,7 +47,9 @@ describe("TaskModal", () => {
       </div>
     `;
 
-    mockOnSubmit = vi.fn().mockResolvedValue(undefined);
+    mockOnSubmit = vi.fn().mockResolvedValue(undefined) as (
+      data: CreateTaskRequest | ({ id: string } & CreateTaskRequest)
+    ) => Promise<void>;
     taskModal = new TaskModal();
     taskModal.setOnSubmit(mockOnSubmit);
   });
