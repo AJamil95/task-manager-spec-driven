@@ -90,7 +90,7 @@ class Application {
       this.isInitialized = true;
       this.hideGlobalLoading();
 
-      console.log("✅ Task Management UI initialized successfully");
+      // console.log("✅ Task Management UI initialized successfully");
     } catch (error) {
       console.error("❌ Failed to initialize application:", error);
       this.showGlobalError(
@@ -114,7 +114,7 @@ class Application {
     this.container.register("taskCache", taskCache);
     this.container.register("dragDropService", dragDropService);
 
-    console.log("📦 Dependencies registered in DI container");
+    // console.log("📦 Dependencies registered in DI container");
   }
 
   /**
@@ -144,7 +144,7 @@ class Application {
     // Initialize the board
     await this.taskBoard.init();
 
-    console.log("🎯 TaskBoard initialized with dependencies");
+    // console.log("🎯 TaskBoard initialized with dependencies");
   }
 
   /**
@@ -185,7 +185,7 @@ class Application {
       }
     });
 
-    console.log("🛡️ Global error handling setup complete");
+    // console.log("🛡️ Global error handling setup complete");
   }
 
   /**
@@ -214,7 +214,7 @@ class Application {
       }
     });
 
-    console.log("🔄 Application lifecycle handlers setup complete");
+    // console.log("🔄 Application lifecycle handlers setup complete");
   }
 
   /**
@@ -326,7 +326,7 @@ class Application {
  * Entry point for the entire application
  */
 async function bootstrap(): Promise<Application> {
-  console.log("🚀 Starting Task Management UI...");
+  // console.log("🚀 Starting Task Management UI...");
 
   const app = new Application();
   await app.init();

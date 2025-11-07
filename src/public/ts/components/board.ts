@@ -4,27 +4,27 @@ import type {
   ITaskCache,
   IDragDropService,
   Task,
-  TaskStatus,
   ColumnConfig,
   CreateTaskRequest,
 } from "../types/task.js";
+import { TaskStatus } from "../types/task.js";
 import { TaskColumn } from "./column.js";
 import { TaskModal } from "./modal.js";
 
 // Column configuration following the design requirements
 const COLUMN_CONFIG: ColumnConfig[] = [
   {
-    id: "pending" as TaskStatus,
+    id: TaskStatus.PENDING,
     title: "Pendiente",
     className: "column-pending",
   },
   {
-    id: "in_progress" as TaskStatus,
+    id: TaskStatus.IN_PROGRESS,
     title: "En Progreso",
     className: "column-progress",
   },
   {
-    id: "completed" as TaskStatus,
+    id: TaskStatus.COMPLETED,
     title: "Completado",
     className: "column-completed",
   },
@@ -84,36 +84,33 @@ export class TaskBoard implements ITaskBoard {
     if (this.isLoading) return;
 
     try {
+      // console.log("🔄 TaskBoard: Starting to load tasks...");
       this.isLoading = true;
       this.showLoadingState();
 
-      // First, try to load from cache for immediate display
-      const cachedTasks = this.cache.get();
-      if (cachedTasks && cachedTasks.length > 0) {
-        this.displayTasks(cachedTasks);
-      }
+      // Clear cache first to avoid confusion
+      this.cache.clear();
 
-      // Then fetch fresh data from API
+      // Fetch fresh data from API
+      // console.log("🌐 TaskBoard: Fetching fresh tasks from API...");
       const freshTasks = await this.apiClient.getTasks();
+      // console.log("✅ TaskBoard: Received fresh tasks:", freshTasks);
 
       // Update cache with fresh data
       this.cache.set(freshTasks);
 
       // Update display with fresh data
+      // console.log("🎨 TaskBoard: Displaying fresh tasks");
       this.displayTasks(freshTasks);
     } catch (error) {
-      console.error("Failed to load tasks:", error);
+      console.error("❌ TaskBoard: Failed to load tasks:", error);
+      // console.error("❌ TaskBoard: Error details:", {
+      //   message: error.message,
+      //   stack: error.stack,
+      //   name: error.name,
+      // });
 
-      // If we have cached data, show it with a warning
-      const cachedTasks = this.cache.get();
-      if (cachedTasks && cachedTasks.length > 0) {
-        this.displayTasks(cachedTasks);
-        this.showError(
-          "No se pudieron cargar las tareas más recientes. Mostrando datos guardados."
-        );
-      } else {
-        this.showError("Error al cargar las tareas");
-      }
+      this.showError(`Error al cargar las tareas: ${error.message}`);
     } finally {
       this.isLoading = false;
       this.hideLoadingState();
@@ -130,13 +127,18 @@ export class TaskBoard implements ITaskBoard {
       const newTask = await this.apiClient.createTask(data);
 
       // Add to appropriate column (new tasks start as pending)
-      const pendingColumn = this.columns.get("pending" as TaskStatus);
+      const pendingColumn = this.columns.get(TaskStatus.PENDING);
       if (pendingColumn) {
         pendingColumn.addTask(newTask);
+        // console.log("✅ TaskBoard: New task added to PENDING column:", newTask);
+      } else {
+        console.error("❌ TaskBoard: PENDING column not found");
       }
 
-      // Clear cache to force refresh on next load
-      this.cache.clear();
+      // Update cache with the new task
+      const currentTasks = this.cache.get() || [];
+      currentTasks.unshift(newTask); // Add to beginning (most recent first)
+      this.cache.set(currentTasks);
 
       // Show success feedback
       this.showSuccess("Tarea creada exitosamente");
@@ -154,7 +156,7 @@ export class TaskBoard implements ITaskBoard {
     this.container.innerHTML = `
       <div class="task-board">
         <header class="board-header">
-          <h1>Task Manager</h1>
+          <h1>Gestor de Tareas</h1>
           <button class="create-task-btn" type="button">
             <span class="btn-icon">+</span>
             Nueva Tarea
@@ -275,18 +277,35 @@ export class TaskBoard implements ITaskBoard {
    * Display tasks in their respective columns
    */
   private displayTasks(tasks: Task[]): void {
+    // console.log("🎨 TaskBoard: Displaying tasks:", tasks);
+    // console.log(
+    //   "📊 TaskBoard: Available columns:",
+    //   Array.from(this.columns.keys())
+    // );
+
     // Clear all columns first
-    this.columns.forEach((column) => {
+    this.columns.forEach((column, status) => {
       // Get current tasks and remove them
       const currentTasks = column.getTasks();
+      // console.log(
+      //   `🗑️ TaskBoard: Clearing ${currentTasks.length} tasks from ${status} column`
+      // );
       currentTasks.forEach((task) => column.removeTask(task.id));
     });
 
     // Add tasks to appropriate columns
     tasks.forEach((task) => {
+      // console.log(
+      //   `➕ TaskBoard: Adding task "${task.title}" to ${task.status} column`
+      // );
       const column = this.columns.get(task.status);
       if (column) {
         column.addTask(task);
+        // console.log(`✅ TaskBoard: Task added to ${task.status} column`);
+      } else {
+        console.error(
+          `❌ TaskBoard: No column found for status: ${task.status}`
+        );
       }
     });
   }

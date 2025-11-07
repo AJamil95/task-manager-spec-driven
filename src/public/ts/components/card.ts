@@ -82,9 +82,10 @@ export class TaskCard implements ITaskCard {
     const createdDate = new Date(this.task.createdAt).toLocaleDateString();
 
     return `
-      <div class="task-card-actions">
+      <!-- EDIT BUTTON COMMENTED OUT -->
+      <!-- <div class="task-card-actions">
         <button class="task-action-btn edit" title="Edit task">✏️</button>
-      </div>
+      </div> -->
       <div class="task-card-title">${this.escapeHtml(this.task.title)}</div>
       ${
         description
@@ -93,7 +94,7 @@ export class TaskCard implements ITaskCard {
             )}</div>`
           : ""
       }
-      <div class="task-card-meta">Created: ${createdDate}</div>
+      <div class="task-card-meta">Creado: ${createdDate}</div>
     `;
   }
 
@@ -132,23 +133,24 @@ export class TaskCard implements ITaskCard {
   private setupEditHandlers(): void {
     if (!this.element) return;
 
+    // EDITING FUNCTIONALITY COMMENTED OUT
     // Handle edit button click
-    this.element.addEventListener("click", (e) => {
-      const target = e.target as HTMLElement;
+    // this.element.addEventListener("click", (e) => {
+    //   const target = e.target as HTMLElement;
 
-      if (target.classList.contains("edit")) {
-        e.stopPropagation();
-        this.enableInlineEdit();
-      }
-    });
+    //   if (target.classList.contains("edit")) {
+    //     e.stopPropagation();
+    //     this.enableInlineEdit();
+    //   }
+    // });
 
     // Handle double-click to edit
-    this.element.addEventListener("dblclick", (e) => {
-      if (!this.isEditing) {
-        e.stopPropagation();
-        this.enableInlineEdit();
-      }
-    });
+    // this.element.addEventListener("dblclick", (e) => {
+    //   if (!this.isEditing) {
+    //     e.stopPropagation();
+    //     this.enableInlineEdit();
+    //   }
+    // });
   }
 
   private setupEditingEventListeners(): void {

@@ -9,9 +9,9 @@ export interface Task {
 }
 
 export enum TaskStatus {
-  PENDING = "pending",
-  IN_PROGRESS = "in_progress",
-  COMPLETED = "completed",
+  PENDING = "PENDING",
+  IN_PROGRESS = "IN_PROGRESS",
+  COMPLETED = "COMPLETED",
 }
 
 // UI-specific interfaces
@@ -68,7 +68,11 @@ export interface IDragDropService {
   setupDropZone(
     column: HTMLElement,
     status: TaskStatus,
-    onDrop: (taskId: string, newStatus: TaskStatus) => Promise<void>
+    onDrop: (
+      taskId: string,
+      newStatus: TaskStatus,
+      sourceStatus: TaskStatus
+    ) => Promise<void>
   ): void;
 }
 

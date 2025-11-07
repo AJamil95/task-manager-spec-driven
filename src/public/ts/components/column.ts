@@ -174,7 +174,8 @@ export class TaskColumn implements ITaskColumn {
 
   private async handleTaskDrop(
     taskId: string,
-    newStatus: TaskStatus
+    newStatus: TaskStatus,
+    sourceStatus: TaskStatus
   ): Promise<void> {
     try {
       // Update task status via API
@@ -189,7 +190,7 @@ export class TaskColumn implements ITaskColumn {
           new CustomEvent("taskMoved", {
             detail: {
               task: updatedTask,
-              fromColumn: this.status,
+              fromColumn: sourceStatus,
               toColumn: newStatus,
             },
             bubbles: true,
@@ -206,7 +207,7 @@ export class TaskColumn implements ITaskColumn {
             detail: {
               error,
               taskId,
-              fromColumn: this.status,
+              fromColumn: sourceStatus,
               toColumn: newStatus,
             },
             bubbles: true,
@@ -238,9 +239,9 @@ export class TaskColumn implements ITaskColumn {
 
   private getEmptyStateHTML(): string {
     const messages = {
-      [TaskStatus.PENDING]: "No pending tasks",
-      [TaskStatus.IN_PROGRESS]: "No tasks in progress",
-      [TaskStatus.COMPLETED]: "No completed tasks",
+      [TaskStatus.PENDING]: "No hay tareas pendientes",
+      [TaskStatus.IN_PROGRESS]: "No hay tareas en progreso",
+      [TaskStatus.COMPLETED]: "No hay tareas completadas",
     };
 
     return `<div class="column-empty">${messages[this.status]}</div>`;

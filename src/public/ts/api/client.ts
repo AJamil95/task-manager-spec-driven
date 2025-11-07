@@ -11,7 +11,10 @@ export class ApiClient implements IApiClient {
   private baseUrl = "/api";
 
   async getTasks(): Promise<Task[]> {
-    return this.get<Task[]>("/tasks");
+    // console.log("🔍 ApiClient: Fetching tasks from", `${this.baseUrl}/tasks`);
+    const tasks = await this.get<Task[]>("/tasks");
+    // console.log("✅ ApiClient: Received tasks:", tasks);
+    return tasks;
   }
 
   async createTask(data: CreateTaskRequest): Promise<Task> {
@@ -27,11 +30,20 @@ export class ApiClient implements IApiClient {
   }
 
   private async get<T>(endpoint: string): Promise<T> {
-    const response = await fetch(`${this.baseUrl}${endpoint}`);
+    const url = `${this.baseUrl}${endpoint}`;
+    // console.log("🌐 HTTP GET:", url);
+
+    const response = await fetch(url);
+    // console.log("📡 Response status:", response.status, response.statusText);
+
     if (!response.ok) {
+      console.error("❌ HTTP Error:", response.status, response.statusText);
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
-    return response.json();
+
+    const data = await response.json();
+    // console.log("📦 Response data:", data);
+    return data;
   }
 
   private async post<T>(endpoint: string, data: any): Promise<T> {

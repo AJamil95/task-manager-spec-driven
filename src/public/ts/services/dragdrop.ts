@@ -29,7 +29,11 @@ export class DragDropService implements IDragDropService {
   setupDropZone(
     column: HTMLElement,
     status: TaskStatus,
-    onDrop: (taskId: string, newStatus: TaskStatus) => Promise<void>
+    onDrop: (
+      taskId: string,
+      newStatus: TaskStatus,
+      sourceStatus: TaskStatus
+    ) => Promise<void>
   ): void {
     column.addEventListener("dragover", (e) => {
       e.preventDefault();
@@ -50,7 +54,11 @@ export class DragDropService implements IDragDropService {
 
       if (this.dragData && this.dragData.sourceColumn !== status) {
         try {
-          await onDrop(this.dragData.taskId, status);
+          await onDrop(
+            this.dragData.taskId,
+            status,
+            this.dragData.sourceColumn
+          );
         } catch (error) {
           console.error("Failed to move task:", error);
           // Error handling will be done by the calling component
