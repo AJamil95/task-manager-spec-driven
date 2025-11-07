@@ -76,7 +76,7 @@
   - Add keyboard navigation support (ESC to close, Enter to submit)
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 6.2_
 
-- [ ] 10. Implement TaskBoard main component
+- [x] 10. Implement TaskBoard main component
 
   - Create TaskBoard class implementing ITaskBoard interface as main orchestrator
   - Implement dependency injection for all services (ApiClient, TaskCache, DragDropService)
