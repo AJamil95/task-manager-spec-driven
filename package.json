@@ -20,22 +20,22 @@
   "description": "",
   "dependencies": {
     "@prisma/client": "^6.19.0",
-    "dotenv": "^17.2.3",
-    "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "prisma": "^6.19.0"
-  },
-  "devDependencies": {
     "@types/express": "^5.0.5",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.10.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "prisma": "^6.19.0",
+    "typescript": "^5.9.3"
+  },
+  "devDependencies": {
     "@types/supertest": "^6.0.3",
     "@vitejs/plugin-legacy": "^7.2.1",
     "@vitest/coverage-v8": "^4.0.7",
     "jsdom": "^27.1.0",
     "supertest": "^7.1.4",
     "tsx": "^4.20.6",
-    "typescript": "^5.9.3",
     "vite": "^7.2.1",
     "vitest": "^4.0.7"
   }
