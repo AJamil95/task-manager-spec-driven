@@ -58,7 +58,7 @@
   - Add visual states for hover, dragging, and editing modes
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 6.1, 6.2_
 
-- [ ] 8. Implement TaskColumn component
+- [x] 8. Implement TaskColumn component
 
   - Create TaskColumn class implementing ITaskColumn interface following Single Responsibility Principle
   - Implement render method to generate column HTML structure
