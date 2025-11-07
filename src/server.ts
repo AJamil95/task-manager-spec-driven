@@ -111,8 +111,8 @@ async function startServer(): Promise<void> {
     const server = app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
       console.log(`Health check available at http://localhost:${PORT}/health`);
-      console.log(`Task API available at http://localhost:${PORT}/api/tasks`);
-      console.log(`Frontend UI available at http://localhost:${PORT}/`);
+      console.log(`Task API available at http://localhost:${PORT}/tasks`);
+      // console.log(`Frontend UI available at http://localhost:${PORT}/`);
     });
 
     // Graceful shutdown handlers

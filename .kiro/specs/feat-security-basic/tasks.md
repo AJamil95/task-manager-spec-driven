@@ -89,13 +89,13 @@
   - Write tests for XSS prevention with malicious inputs
   - _Requirements: All requirements validation_
 
-- [ ] 12. Environment setup
+- [x] 12. Environment setup
 
   - Create .env.example with JWT_SECRET and auth credentials
 
   - _Requirements: 1.5_
 
-- [ ] 13. Final integration and testing
+- [x] 13. Final integration and testing
 
   - Test complete authentication flow: login → get token → access protected routes
   - Verify all task endpoints require authentication
