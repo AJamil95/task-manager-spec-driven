@@ -48,3 +48,17 @@ El sistema permitirá crear, listar y actualizar tareas, aplicando buenas práct
 - **GET /tasks** → Listar todas las tareas
 - **POST /tasks** → Crear una nueva tarea
 - **PUT /tasks/:id/status** → Actualizar el estado de una tarea
+
+## Frontend UI Funcionalidades
+
+- **Tablero Kanban** con 3 columnas (Pendiente, En Progreso, Completado)
+- **Drag & Drop** nativo para mover tareas entre estados
+- **Modal de creación** para nuevas tareas
+- **Edición inline** de título y descripción
+- **Cache local** para mejor rendimiento
+
+## Frontend UI Stack Técnico
+
+- **Vanilla TypeScript** + HTML5 + CSS3
+- **APIs nativas**: Fetch, Drag & Drop, DOM, localStorage
+- **Integración SPA** en el mismo servidor Express
