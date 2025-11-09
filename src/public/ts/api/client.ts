@@ -72,9 +72,12 @@ export class ApiClient implements IApiClient {
     if (response.status === 401) {
       console.error("❌ Unauthorized: Token invalid or expired");
 
-      // Clear token and trigger login
+      // Clear token locally (don't call backend on 401)
       if (this.authService) {
-        this.authService.logout();
+        const token = this.authService.getToken();
+        if (token) {
+          localStorage.removeItem("jwt_token");
+        }
       }
 
       if (this.onUnauthorized) {

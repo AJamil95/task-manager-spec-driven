@@ -159,10 +159,13 @@ export class TaskBoard implements ITaskBoard {
       <div class="task-board">
         <header class="board-header">
           <h1>Gestor de Tareas</h1>
-          <button class="create-task-btn" type="button">
-            <span class="btn-icon">+</span>
-            Nueva Tarea
-          </button>
+          <div class="header-actions">
+            <button class="create-task-btn" type="button">
+              <span class="btn-icon">+</span>
+              Nueva Tarea
+            </button>
+            <button class="logout-btn" type="button" title="Cerrar sesión">Salir</button>
+          </div>
         </header>
         
         <div class="loading-overlay hidden">

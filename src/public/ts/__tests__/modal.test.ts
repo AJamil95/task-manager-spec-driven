@@ -201,7 +201,7 @@ describe("TaskModal", () => {
     const formGroup = titleInput.closest(".form-group");
     expect(formGroup?.classList.contains("error")).toBe(true);
     expect(formGroup?.querySelector(".form-error")?.textContent).toBe(
-      "El título no puede exceder 200 caracteres"
+      "El título no puede exceder 100 caracteres"
     );
   });
 

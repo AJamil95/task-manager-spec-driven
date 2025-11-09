@@ -18,5 +18,13 @@ export function createAuthRoutes(): Router {
     })
   );
 
+  // POST /auth/logout - User logout endpoint
+  router.post(
+    "/logout",
+    asyncErrorWrapper(async (req, res) => {
+      await authController.logout(req, res);
+    })
+  );
+
   return router;
 }
