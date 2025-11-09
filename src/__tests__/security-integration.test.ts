@@ -75,7 +75,9 @@ describe("Security Integration Tests", () => {
         error: "Unauthorized",
         statusCode: 401,
       });
-      expect(response.body.message).toContain("Invalid username or password");
+      expect(response.body.message).toContain(
+        "Usuario o contraseña incorrecta!"
+      );
     });
 
     it("should reject login with invalid password", async () => {

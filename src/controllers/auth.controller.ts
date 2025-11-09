@@ -55,7 +55,7 @@ export class AuthController {
       if (error instanceof Error && error.message === "Invalid credentials") {
         res.status(401).json({
           error: "Unauthorized",
-          message: "Invalid username or password",
+          message: "Usuario o contraseña incorrecta!",
           statusCode: 401,
           timestamp: new Date().toISOString(),
         });
