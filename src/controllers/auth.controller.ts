@@ -72,4 +72,27 @@ export class AuthController {
       });
     }
   }
+
+  /**
+   * Handles user logout
+   * POST /auth/logout
+   */
+  async logout(req: Request, res: Response): Promise<void> {
+    try {
+      // In a JWT-based system, logout is handled client-side by removing the token
+      // This endpoint exists for consistency and potential future server-side session management
+      res.status(200).json({
+        message: "Logout successful",
+        timestamp: new Date().toISOString(),
+      });
+    } catch (error) {
+      res.status(500).json({
+        error: "Internal Server Error",
+        message:
+          error instanceof Error ? error.message : "Unknown error occurred",
+        statusCode: 500,
+        timestamp: new Date().toISOString(),
+      });
+    }
+  }
 }
