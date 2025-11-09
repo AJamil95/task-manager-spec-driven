@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gestor de Tareas</title>
+    <link rel="icon" type="image/png" href="task.png" />
     <link rel="stylesheet" href="./styles/main.css" />
     <link rel="stylesheet" href="./styles/board.css" />
     <link rel="stylesheet" href="./styles/card.css" />
@@ -35,14 +36,22 @@
         <form id="task-form" class="modal-body">
           <div class="form-group">
             <label for="task-title">Título *</label>
-            <input type="text" id="task-title" name="title" required />
+            <input
+              type="text"
+              id="task-title"
+              maxlength="100"
+              name="title"
+              required
+            />
           </div>
           <div class="form-group">
-            <label for="task-description">Descripción</label>
+            <label for="task-description">Descripción *</label>
             <textarea
               id="task-description"
               name="description"
               rows="3"
+              required
+              maxlength="400"
             ></textarea>
           </div>
           <div class="modal-footer">
