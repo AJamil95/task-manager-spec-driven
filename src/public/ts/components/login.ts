@@ -31,7 +31,7 @@ export class LoginComponent implements ILoginComponent {
    */
   private createModal(): void {
     const modalHtml = `
-      <div id="login-modal" class="modal">
+      <div id="login-modal" class="modal hidden">
         <div class="modal-content">
           <div class="modal-header">
             <h2>Iniciar Sesión</h2>

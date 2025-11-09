@@ -36,10 +36,6 @@ export default defineConfig({
         target: "http://localhost:3000",
         changeOrigin: true,
       },
-      "/tasks": {
-        target: "http://localhost:3000",
-        changeOrigin: true,
-      },
     },
     // Serve from port 5173 (Vite default)
     port: 5173,

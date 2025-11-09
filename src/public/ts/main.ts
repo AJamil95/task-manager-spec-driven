@@ -97,6 +97,18 @@ class Application {
         return;
       }
 
+      // Validate token before loading app
+      const isTokenValid = await this.authService.validateToken();
+
+      if (!isTokenValid) {
+        this.hideGlobalLoading();
+        this.showLogin();
+        this.showGlobalError(
+          "Sesión expirada. Por favor, inicia sesión nuevamente."
+        );
+        return;
+      }
+
       // Initialize main application components
       await this.initializeComponents();
 
@@ -105,10 +117,7 @@ class Application {
 
       this.isInitialized = true;
       this.hideGlobalLoading();
-
-      // console.log("✅ Task Management UI initialized successfully");
     } catch (error) {
-      console.error("❌ Failed to initialize application:", error);
       this.showGlobalError(
         "Error al inicializar la aplicación. Por favor, recarga la página."
       );
@@ -262,41 +271,51 @@ class Application {
   /**
    * Handle user logout
    */
-  private handleLogout(): void {
-    if (this.authService) {
-      this.authService.logout();
+  private async handleLogout(): Promise<void> {
+    try {
+      this.showGlobalLoading("Cerrando sesión...");
+
+      if (this.authService) {
+        await this.authService.logout();
+      }
+
+      // Clear cache
+      const taskCache = this.container.get<ITaskCache>("taskCache");
+      taskCache.clear();
+
+      // Reset application state
+      this.isInitialized = false;
+      this.taskBoard = null;
+
+      // Reset app container
+      const appContainer = document.getElementById("app");
+      if (appContainer) {
+        appContainer.innerHTML = `
+          <div class="task-board">
+            <header class="board-header">
+              <h1>Gestor de Tareas</h1>
+              <div class="header-actions">
+                <button class="create-task-btn">+ Nueva Tarea</button>
+                <button class="logout-btn" title="Cerrar sesión">Salir</button>
+              </div>
+            </header>
+            <main class="board-container">
+              <!-- Columns will be dynamically generated -->
+            </main>
+          </div>
+        `;
+      }
+
+      this.hideGlobalLoading();
+
+      // Show login
+      this.showLogin();
+      this.showGlobalSuccess("Sesión cerrada correctamente");
+    } catch (error) {
+      console.error("Error during logout:", error);
+      this.hideGlobalLoading();
+      this.showGlobalError("Error al cerrar sesión");
     }
-
-    // Clear cache
-    const taskCache = this.container.get<ITaskCache>("taskCache");
-    taskCache.clear();
-
-    // Reset application state
-    this.isInitialized = false;
-    this.taskBoard = null;
-
-    // Reset app container
-    const appContainer = document.getElementById("app");
-    if (appContainer) {
-      appContainer.innerHTML = `
-        <div class="task-board">
-          <header class="board-header">
-            <h1>Gestor de Tareas</h1>
-            <div class="header-actions">
-              <button class="create-task-btn">+ Nueva Tarea</button>
-              <button class="logout-btn" title="Cerrar sesión">Salir</button>
-            </div>
-          </header>
-          <main class="board-container">
-            <!-- Columns will be dynamically generated -->
-          </main>
-        </div>
-      `;
-    }
-
-    // Show login
-    this.showLogin();
-    this.showGlobalSuccess("Sesión cerrada correctamente");
   }
 
   /**

@@ -74,13 +74,26 @@ export class TaskColumn implements ITaskColumn {
     // Add to internal collection
     this.tasks.push(task);
 
+    //Order tasks
+    this.tasks.sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+
     // Create task card
     const taskCard = new TaskCard(task, this.dragDropService, this.apiClient);
     this.taskCards.set(task.id, taskCard);
 
     // Add to DOM
     if (this.contentElement) {
-      this.contentElement.appendChild(taskCard.render());
+      this.contentElement.innerHTML = "";
+      for (const t of this.tasks) {
+        const card =
+          this.taskCards.get(t.id) ||
+          new TaskCard(t, this.dragDropService, this.apiClient);
+        this.taskCards.set(t.id, card);
+        this.contentElement.appendChild(card.render());
+      }
       this.updateEmptyState();
     }
   }

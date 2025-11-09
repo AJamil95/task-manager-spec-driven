@@ -125,13 +125,6 @@ export class TaskModal implements ITaskModal {
     ) as HTMLButtonElement;
     cancelButton?.addEventListener("click", () => this.hide());
 
-    // Click outside modal to close
-    this.modal.addEventListener("click", (event) => {
-      if (event.target === this.modal) {
-        this.hide();
-      }
-    });
-
     // Keyboard navigation support
     document.addEventListener("keydown", (event) => {
       if (!this.modal.classList.contains("hidden")) {
@@ -152,6 +145,13 @@ export class TaskModal implements ITaskModal {
     // Real-time validation
     this.titleInput.addEventListener("input", () => this.validateTitle());
     this.titleInput.addEventListener("blur", () => this.validateTitle());
+
+    this.descriptionTextarea.addEventListener("input", () =>
+      this.validateDescription()
+    );
+    this.descriptionTextarea.addEventListener("blur", () =>
+      this.validateDescription()
+    );
   }
 
   /**
@@ -211,7 +211,7 @@ export class TaskModal implements ITaskModal {
    * @returns true if form is valid, false otherwise
    */
   private validateForm(): boolean {
-    const isTitleValid = this.validateTitle();
+    const isTitleValid = this.validateTitle() && this.validateDescription();
     return isTitleValid;
   }
 
@@ -228,10 +228,37 @@ export class TaskModal implements ITaskModal {
       return false;
     }
 
-    if (title.length > 200) {
+    if (title.length > 100) {
       this.showFieldError(
         formGroup,
-        "El título no puede exceder 200 caracteres"
+        "El título no puede exceder 100 caracteres"
+      );
+      return false;
+    }
+
+    this.clearFieldError(formGroup);
+    return true;
+  }
+
+  /**
+   * Validate the description field
+   * @returns true if description is valid, false otherwise
+   */
+  private validateDescription(): boolean {
+    const description = this.descriptionTextarea.value.trim();
+    const formGroup = this.descriptionTextarea.closest(
+      ".form-group"
+    ) as HTMLElement;
+
+    if (!description) {
+      this.showFieldError(formGroup, "La descripción es obligatoria");
+      return false;
+    }
+
+    if (description.length > 400) {
+      this.showFieldError(
+        formGroup,
+        "La descripción no puede exceder 400 caracteres"
       );
       return false;
     }
